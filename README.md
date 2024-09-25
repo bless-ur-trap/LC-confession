@@ -1,5 +1,5 @@
 # LC-script
-How I had fun on lemoncloud minecraft server late 2023 - early 2024 and made 1600 lemons
+How I had fun on lemoncloud minecraft server late 2023 - early 2024 and made 1600 lemons in just a couple months
 
 Disclaimer: I probably didn't actually implement these in my gameplay, this is not an admission of guilt, all the following are hypothetical and may or may not actually work. Using these on a server will result in a ban if you are caught. 
 
