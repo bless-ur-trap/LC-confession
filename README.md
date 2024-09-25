@@ -42,22 +42,23 @@ Well now I have a good idea on the best time to run the bot with the smallest ch
 At my peak I netted around 6-7 billion igm a day without even opening my laptop. This is a problem. If I am constantly on /baltop, people will notice. To get around this, I had my bots automatically distrubute the money among many alts, so I would stay off /baltop, easy! I would then buy lemons to lower my balance.
 
 ### Converting money to lemons - discord bot
-I didn't want to sit online all day monitering chat waiting for people to sell lemons. So, I wrote a discord bot that notified me when someone mentioned 'lemon' in the game chat. I had to filter out 'ilemon' or 'lemoncloud', but for the most part when I got pinged, it was a potential sale. My discord bot could also interact with in game chat, so I could buy lemons and interact with players through my phone. This discord bot was proudly made with [discordjs](https://discordjs.guide/#before-you-begin) and [Mineflayer](https://github.com/PrismarineJS/mineflayer). Pretty quickly I got to a total of around 1600 lemons before my days of doing nothing ran out. 
+I didn't want to sit online all day monitering chat waiting for people to sell lemons. So, I wrote a discord bot that notified me when someone mentioned 'lemon' in the game chat. I had to filter out 'ilemon' or 'lemoncloud', but for the most part when I got pinged, it was a potential sale. My discord bot could also interact with in game chat, so I could buy lemons and interact with players through my phone. 
 
-Man I'm a fucking loser. Anyways, I ended up selling those lemons for some real life money, the final goal of this project. Or did I? I guess we will never really know.
+![CleanShot 2024-09-25 at 01 27 25@2x](https://github.com/user-attachments/assets/836a6314-a11e-40e5-8412-40de2fd57a1a)
 
-To the staff and alex:
-
-Thank you for LC and this experience. I geniunely had a great time and actually learned something new which is cool. I hope this can help the moderation team in the future. Sorry I broke some rules, but you're welcome for driving lemon sales on the LC website, I had some big time sellers who spent hundreds of GBP on lemons in your store to get some in-game money. I hope you bought something nice for yourself alex.
+This discord bot was proudly made with [discordjs](https://discordjs.guide/#before-you-begin) and [Mineflayer](https://github.com/PrismarineJS/mineflayer). Pretty quickly I got to a total of around 1600 lemons before my days of doing nothing ran out. Anyways, I ended up selling those lemons for some real life money, the final goal of this project. Or did I? I guess we will never really know.
 
 Again, all the above is probably fiction, who would spend so much time and effort getting fake currency?
 
 Until next time
+<br>
 bless
 
 
 
-
+<br>
+<br>
+<br>
 
 
 A small thank you to steel for letting me use your server to test my bots before deploying them <3
