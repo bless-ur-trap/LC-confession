@@ -34,12 +34,65 @@ For example here we can see a specific mod's hourly activity in a specificed tim
 
 <img width="836" alt="Screenshot 2024-09-25 at 12 28 18 AM" src="https://github.com/user-attachments/assets/dfa1b2a8-2228-4312-b614-e80a1c50772c">
 
-One last example, let us see what the mods are up to on a random day: 3/13/2024. Interesting! Or not.
+Here we can clearly see how this method semi solves the vanish issue, we can see small gaps in the staff activity, usually for 1-2 hours. We can assume the staff was in vanish at these times if we were to err on the side of caution.
 
 ### Selling chests automatically on survival
 Well now I have a good idea on the best time to run the bot with the smallest chance of detection. Time to write a bot that flys around my chests and auto sells them. This part is boring, but a couple things to highlight. My chest collections were in a 3 adjacent 64x64 walls. I had 10 farms, so that totals to 245,760 chests. If any OGs on survival remember me mass buying chests and hoppers for ridiculous prices, this is why. Of course, I didn't manually build these farms by hand, I had a bot that built farms as well. Anyways, I digress. The biggest issue was avoiding the same mistake that got me banned in the past. If I was ever force teleported, I wanted to be able to detect that and stop my bot. Luckily Mineflayer has a 'force-teleport' function that does just this, however TPS drops sometimes triggered this, so the majority of the time I ran the bots without this protection. Risky for sure, but again I knew staff was offline :D. Of course, this ran automatically, on a virtual server, everyday by itself.
 
 At my peak I netted around 6-7 billion igm a day without even opening my laptop. This is a problem. If I am constantly on /baltop, people will notice. To get around this, I had my bots automatically distrubute the money among many alts, so I would stay off /baltop, easy! I would then buy lemons to lower my balance.
+
+Below is a snippet of the main function that flys through my wall of chests, clicking on them with a sell wand to sell the contents
+```js
+const sellChests = async (startingChestPOS,ax,direction,chestFacing,rows,cols) => {
+  startedEvent = true
+  currentChest = startingChestPOS
+  var flipFlop = 1
+  // x and y are for player model to have room to sell
+  var startingLoc = startingChestPOS.offset(mapper(ax,direction,flipFlop,chestFacing)[0].x,
+    mapper(ax,direction,flipFlop,chestFacing)[0].y,
+    mapper(ax,direction,flipFlop,chestFacing)[0].z)
+  
+  console.log('starting at' + startingLoc.toString())
+  // z-shift is since the first step of for loop is to shift +1
+  currentChest = currentChest.offset(mapper(ax,direction,flipFlop,chestFacing)[2].x,
+    mapper(ax,direction,flipFlop,chestFacing)[2].y,
+    mapper(ax,direction,flipFlop,chestFacing)[2].z)
+
+  isBigFlying = true
+  await flyToDest(startingLoc,true)
+  isBigFlying = false
+
+  for (let j = 0; j < rows;j++){
+    console.log('\nRow: ' + j.toString())
+    console.log('Col: ')
+    for (let i=0; i<cols;i++){
+      if (moved){
+        break
+      }
+      
+      currentChest = currentChest.offset(mapper(ax,direction,flipFlop,chestFacing)[1].x,
+        mapper(ax,direction,flipFlop,chestFacing)[1].y,
+        mapper(ax,direction,flipFlop,chestFacing)[1].z)
+      var chesty = bot.blockAt(currentChest)
+      openChest(chesty)
+      process.stdout.write(i.toString() + ' ')
+      
+      if (i != cols-1){
+        startingLoc = startingLoc.offset(mapper(ax,direction,flipFlop,chestFacing)[1].x,mapper(ax,direction,flipFlop,chestFacing)[1].y,mapper(ax,direction,flipFlop,chestFacing)[1].z)
+        await flyToDest(startingLoc)
+      }
+    }
+    if (moved){
+      break
+    }
+    flipFlop = flipFlop * -1
+    startingLoc = startingLoc.offset(0,1,0)
+    await flyToDest(startingLoc)
+    currentChest = currentChest.offset(0,1,0)
+  }
+  startedEvent = false
+}
+```
 
 ### Converting money to lemons - discord bot
 I didn't want to sit online all day monitering chat waiting for people to sell lemons. So, I wrote a discord bot that notified me when someone mentioned 'lemon' in the game chat. I had to filter out 'ilemon' or 'lemoncloud', but for the most part when I got pinged, it was a potential sale. My discord bot could also interact with in game chat, so I could buy lemons and interact with players through my phone. 
