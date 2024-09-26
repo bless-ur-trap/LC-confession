@@ -6,7 +6,7 @@ Disclaimer: I probably didn't actually implement these in my gameplay, this is n
 The following is written for those with very rudimentary programming knowledge
 
 ## Why did I do this?
-I like mc, but I don't like physically clicking on blocks/chests to sell drops or mine blocks. I like automation and I like to code small projects. Thus, I decided to go as over the top as possible in autmoating every step of playing survival. In the end I didn't have to open minecraft to play minecraft anymore. Enjoy the following probably fake story about how I made money on LC and saved my wrist from mindless clicking. I also liked lemons, I wanted a lot of them.
+I like mc, but I don't like physically clicking on blocks/chests to sell drops or mine blocks. I like automation and I like to code small projects. Thus, I decided to go as over the top as possible in automating every step of playing survival. In the end I didn't have to open minecraft to play minecraft anymore. Enjoy the following probably fake story about how I made money on LC and saved my wrist from mindless clicking. I also liked lemons, I wanted a lot of them.
 
 ## Problems I needed to solve
 1. To do anything with scripts is not allowed, so I needed to avoid detection. What I really needed was to see staff in vanish, which I semi-accomplished
