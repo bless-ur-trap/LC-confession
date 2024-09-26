@@ -1,6 +1,8 @@
 # LC-confession
 How I had fun on lemoncloud minecraft server late 2023 - early 2024 and made 1700 lemons in just a couple months
 
+In summary: I botted
+
 Disclaimer: I probably didn't actually implement these in my gameplay, this is not an admission of guilt, all the following are hypothetical and may or may not actually work. Using these on a server will result in a ban if you are caught. 
 
 The following is written for those with very rudimentary programming knowledge
