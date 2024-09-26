@@ -273,6 +273,8 @@ I used some of those lems to get me and cow to p100 in prison within a week or t
 
 Again, all the above is probably fiction, who would spend so much time and effort getting fake currency?
 
+Questions? Reach out to me on discord: blessurtrap
+
 Until next time,
 <br>
 blessed
