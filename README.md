@@ -6,10 +6,10 @@ Disclaimer: I probably didn't actually implement these in my gameplay, this is n
 The following is written for those with very rudimentary programming knowledge
 
 ## Why did I do this?
-I like mc, but I don't like physically clicking on blocks/chests to sell drops or mine blocks. I like automation and I like to code small projects. Enjoy the following probably fake story about how I made money on LC and saved my wrist from mindless clicking. I also liked lemons, I wanted a lot of them.
+I like mc, but I don't like physically clicking on blocks/chests to sell drops or mine blocks. I like automation and I like to code small projects. Thus, I decided to go as over the top as possible in autmoating every step of playing survival. In the end I didn't have to open minecraft to play minecraft anymore. Enjoy the following probably fake story about how I made money on LC and saved my wrist from mindless clicking. I also liked lemons, I wanted a lot of them.
 
 ## Problems I needed to solve
-1. To do anything with scripts is not allowed, so I needed to avoid detection. What I really needed was to see staff in vanish, which I semi-accomplished*
+1. To do anything with scripts is not allowed, so I needed to avoid detection. What I really needed was to see staff in vanish, which I semi-accomplished
 2. On survival, I have big eman farms with over 125,000 double chests I needed to click on daily to sell the drops. I also needed to hide my ridiculous balance from /baltop
 3. Everyone wants lemons, how do I get an advantage when it comes to buying them?
 
@@ -42,8 +42,6 @@ Here we can clearly see how this method semi solves the vanish issue, we can see
 ### Selling chests automatically on survival
 Well now I have a good idea on the best time to run the bot with the smallest chance of detection. Time to write a bot that flys around my chests and auto sells them. This part is boring, but a couple things to highlight. My chest collections were in a 3 adjacent 64x64 walls. I had 10 farms, so that totals to 245,760 chests. If any OGs on survival remember me mass buying chests and hoppers for ridiculous prices, this is why. Of course, I didn't manually build these farms by hand, I had a bot that built farms as well. Anyways, I digress. The biggest issue was avoiding the same mistake that got me banned in the past. If I was ever force teleported, I wanted to be able to detect that and stop my bot. Luckily Mineflayer has a 'force-teleport' function that does just this, however TPS drops sometimes triggered this, so the majority of the time I ran the bots without this protection. Risky for sure, but again I knew staff was offline :D. Of course, this ran automatically, on a virtual server, everyday at a scheduled time by itself.
 
-At my peak I netted around 6-7 billion igm a day without even opening my laptop. This is a problem. If I am constantly on /baltop, people will notice. To get around this, I had my bots automatically distrubute the money among many alts, so I would stay off /baltop, easy! I would then buy lemons to lower my balance.
-
 Below are some snippets of the main functions that flys through my wall of chests, clicking on them with a sell wand to sell the contents. Remember this code probably doesn't work as I probably never actually botted on the server.
 ```js
 // Handles polarity when moving along different axes
@@ -54,7 +52,7 @@ function mapper(ax,direction,flipflop,chestFacing){
   //2 : initial chest offset for for loop counting
   output = []
   if (ax == 'x'){
-    output.push(v(0,-1,-1*chestFacing*2))
+    output.push(v(0,-1,-1chestFacing*2))
     output.push(v(flipflop*direction,0,0))
     output.push(v(-1*direction,0,0))
   }else{
@@ -166,9 +164,104 @@ const completeSell = async () => {
     
   }}
 ```
+### Alt Bank system
+At my peak I netted around 6-7 billion from selling epearls a day without even opening my laptop. This is a problem. If I am constantly on /baltop, people will notice. To get around this, I had my bots automatically distrubute the money among many alts, so I would stay off /baltop, easy! Or so I thought. It was a pain to manually manage the balance of all my alts. Sometimes alts would fail and go offline. This meant when the money was distrubuted, some alts would not recieve their share, causing other alts to recieve too much money and peak through on /baltop.
+
+The solution? A self-balancing alt network. Whenever money was sent to an alt, the entire alt network would send each other money so that all the accounts ended up with the same balance. Then when I would want to withdrawl money from the alt network (to my main account), they would each send me a portion of the amount of money I requested. For example, if I had 10 alts and I wanted to withdrawl 1B, each alt would send me 100M. Of course, this was done automatically so I wouldn't have to log into each account and manually type /pay.
+
+Here's a little snippet of that code for your own edification
+```js
+// Function that actually runs /pay in game with the correct usernames and amounts
+function pay(senderIndex,recieverIndex, amt){
+	console.log(usernames[senderIndex] + ' payed ' + usernames[recieverIndex] + ' ' + amt)
+	let cmdString = ''
+	if (senderIndex == 9){
+		bot.chat('/pay ' + usernames[recieverIndex] + ' ' + amt)
+	}else{
+		cmdString = ecs[accounts[senderIndex][1]] + '"screen -S ' + accounts[senderIndex][0] + " -X stuff '/pay " + usernames[recieverIndex] + ' ' + amt  + "\\" + "n" + "'" + '"'
+		// console.log(cmdString)
+		child.exec(cmdString)
+	}
+}
+// Helper function for balanceBal()
+function removeIndex(array,indexArray){
+	let newArr = []
+	for (let i=0; i<indexArray.length; i++){
+		array[i] = -1
+	}
+	for (let i=0; i<array.length; i++){
+		if (array[i] != -1){
+			newArr.push(array[i])
+		}
+	}
+	return newArr
+}
+
+// Balances the balance of alts
+function balanceBal(){
+
+	let higherArray = []
+	let lowerArray = []
+	let doneArray = []
+	let total = 0
+	for (let i = 0; i < bals.length; i++){
+		total += bals[i]
+	}
+
+	let targetBal = total/bals.length
+	console.log('Target Bal: ' + targetBal)
+
+	for (let i = 0; i < bals.length; i++){
+		if (bals[i] > targetBal){
+			higherArray.push(i)
+
+		}
+		else if (bals[i] < targetBal){
+			lowerArray.push(i)
+		}
+		else{
+			doneArray.push(i)
+		}
+	}
+
+	for (let i = 0; i < higherArray.length; i++){
+		let indexToSplice = []
+		let difference = bals[higherArray[i]] - targetBal
+		
+		bals[higherArray[i]] -= difference
+		for (let j = 0; j < lowerArray.length; j++){
+			
+			if (difference == 0){
+				break
+			}
+
+			if (bals[lowerArray[j]]+difference < targetBal){
+				pay(higherArray[i],lowerArray[j],Math.round(difference))
+				bals[lowerArray[j]]+= difference
+				
+				difference = 0
+			} else{
+				difference = difference - (targetBal - bals[lowerArray[j]])
+				pay(higherArray[i],lowerArray[j],Math.round((targetBal - bals[lowerArray[j]])))
+				bals[lowerArray[j]]+= (targetBal - bals[lowerArray[j]])
+
+
+				if (Math.abs(bals[lowerArray[j]] - targetBal) < 1){
+					indexToSplice.push(j)
+				}
+				
+			}
+
+		}
+		// console.log(indexToSplice)
+		lowerArray = removeIndex(lowerArray,indexToSplice)
+	}
+
+}
+```
 
 ### Converting money to lemons - discord bot
-I didn't want to sit online all day monitering chat waiting for people to sell lemons. So, I wrote a discord bot that notified me when someone mentioned 'lemon' in the game chat. I had to filter out 'ilemon' or 'lemoncloud', but for the most part when I got pinged, it was a potential sale. My discord bot could also interact with in game chat, so I could buy lemons and interact with players through my phone. 
+Finally it is time to use that in-game-money to buy lemons from other players. I didn't want to sit online all day monitering chat waiting for people to sell lemons for in-game-money. So, I wrote a discord bot that notified me when someone mentioned 'lemon' in the game chat. I had to filter out 'ilemon' or 'lemoncloud', but for the most part when I got pinged, it was a potential sale. My discord bot could also interact with in game chat, so I could buy lemons and interact with players through my phone. I was very close to implementing ChatGPT to automaically contact players and broker sales, but I didn't want to pay OpenAI to use their API.
 
 ![CleanShot 2024-09-25 at 01 27 25@2x](https://github.com/user-attachments/assets/836a6314-a11e-40e5-8412-40de2fd57a1a)
 
