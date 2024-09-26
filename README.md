@@ -1,5 +1,5 @@
 # LC-script
-How I had fun on lemoncloud minecraft server late 2023 - early 2024 and made 1600 lemons in just a couple months
+How I had fun on lemoncloud minecraft server late 2023 - early 2024 and made 1700 lemons in just a couple months
 
 Disclaimer: I probably didn't actually implement these in my gameplay, this is not an admission of guilt, all the following are hypothetical and may or may not actually work. Using these on a server will result in a ban if you are caught. 
 
@@ -265,7 +265,11 @@ Finally it is time to use that in-game-money to buy lemons from other players. I
 
 ![CleanShot 2024-09-25 at 01 27 25@2x](https://github.com/user-attachments/assets/836a6314-a11e-40e5-8412-40de2fd57a1a)
 
-This discord bot was proudly made with [discordjs](https://discordjs.guide/#before-you-begin) and [Mineflayer](https://github.com/PrismarineJS/mineflayer). Pretty quickly I got to a total of around 1600 lemons before my days of doing nothing ran out. Anyways, I ended up selling some of those lemons for some real life money, the final goal of this project. Or did I? I guess we will never really know.
+This discord bot was proudly made with [discordjs](https://discordjs.guide/#before-you-begin) and [Mineflayer](https://github.com/PrismarineJS/mineflayer). Pretty quickly I got to a total of around 1700 lemons before my days of doing nothing ran out. 
+
+
+# 1700 lemons, now what?
+I used some of those lems to get me and cow to p100 in prison within a week or two of the reset (with the help of some auto-mining bots of course). I also sold some of those lemons for real life money -- a BIG no-no. Or did I? I guess we will never really know.
 
 Again, all the above is probably fiction, who would spend so much time and effort getting fake currency?
 
