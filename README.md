@@ -26,7 +26,7 @@ Since I was already banned, I knew I was under scrutiny when I came back. So wit
 
 <img width="1112" alt="Screenshot 2024-09-25 at 12 11 04 AM" src="https://github.com/user-attachments/assets/194d8bf9-a100-4a2a-bfe5-ebd82bea2a32">
 
-This is the culminative data over 108 days of data collection. The X-axis shows the hours of each day from 0-24. The number in the boxes show how many times a specific staff was scene at that hour, ignoring what day of the week it was. Hovering over the box shows the exact dates that they were seen. Of course, with this data we can represent it in many forms. I do have to say, as much as people give staff shit for not moderating, they do a good job getting online and trying their best <3
+This is the culminative data over 108 days of data collection. The X-axis shows the hours of each day from 0-24. The number in the boxes show how many times a specific staff was seen at that hour, ignoring what day of the week it was. Hovering over the box shows the exact dates that they were seen. Of course, with this data we can represent it in many forms. I do have to say, as much as people give staff shit for not moderating, they do a good job getting online and trying their best <3
 
 <img width="724" alt="Screenshot 2024-09-25 at 12 16 29 AM" src="https://github.com/user-attachments/assets/68c0e5cb-8d6e-4e0f-8df1-eddf4b48461a">
 
