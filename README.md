@@ -22,11 +22,14 @@ I wanted a method to sell my farms without minecraft even open on my laptop, and
 Free amazon EC2 servers and [Mineflayer.](https://github.com/PrismarineJS/mineflayer) EC2 servers let me host my bots on amazon servers and I could control them through a command line, and eventually a discord server. Mineflayer let me write bots that do 99% of what a real player can do in the game through a script.
 
 ### Semi vanish exploit - Logging staff activity
-Since I was already banned, I knew I was under scrutiny when I came back. So with a mineflayer bot I decided to log all staff activity 24/7, even when they are in vanish. Unfortunately vanish is a great plugin that completely hides staff packets from clients (us players). Thus there is no way to actually detect staff in vanish as the server doesn't even send us those packets. However it seems that /seen will log the staff joining a specific gamemode, even if they join while in /v. Even though /seen shows them as 'Offline' it logs their last seen moment as the moment they joined the specific gamemode in /v. This information by itself isn't useful, but if logged consistently evey hour of every day you can learn helpful information. This meant a bot switching between every gamemode, running /seen on every staff memeber, and logging it - every hour of every day. I collected a couple months of information like this. Remember, this bot is hosted on a virtual server, so my computer does not have to be on for this to happen. This made for some very interesting graphs...
+Since I was already banned, I knew I was under scrutiny when I came back. So with a mineflayer bot I decided to log all staff activity 24/7, even when they are in vanish. Unfortunately vanish is a great plugin that completely hides staff packets from clients (us players). Thus there is no way to actually detect staff in vanish as the server doesn't even send us those packets. However it seems that /seen will log the staff joining a specific gamemode, even if they join while in /v. Even though /seen shows them as 'Offline' it logs their last seen moment as the moment they joined the specific gamemode in /v. 
+
+
+This information by itself isn't useful, but if logged consistently evey hour of every day you can learn helpful trends e.g hours of the day where there is little staff activity. Obtaining this information meant a bot switching between every gamemode, running /seen on every staff memeber, and logging it - every hour of every day. I collected a couple months of information like this. Remember, this bot is hosted on a virtual server with a timer to wake up every hour, so my computer does not have to be on for this to happen. This made for some very interesting graphs...
 
 <img width="1112" alt="Screenshot 2024-09-25 at 12 11 04 AM" src="https://github.com/user-attachments/assets/194d8bf9-a100-4a2a-bfe5-ebd82bea2a32">
 
-This is the culminative data over 108 days of data collection. The X-axis shows the hours of each day from 0-24. The number in the boxes show how many times a specific staff was seen at that hour, ignoring what day of the week it was. Hovering over the box shows the exact dates that they were seen. Of course, with this data we can represent it in many forms. I do have to say, as much as people give staff shit for not moderating, they do a good job getting online and trying their best <3
+This is the culminative heat map of the data collected over 108 days. The X-axis shows the hours of each day from 0-24. The number in the boxes show how many times a specific staff was seen at that hour, ignoring what day of the week it was. Darker colored squares meant at that hour, it is more likely to find that particular staff online. Hovering over the box shows the exact dates that they were seen. Of course, with this data we can represent it in many forms. I do have to say, as much as people give staff shit for not moderating, they do a good job getting online and trying their best <3
 
 <img width="724" alt="Screenshot 2024-09-25 at 12 16 29 AM" src="https://github.com/user-attachments/assets/68c0e5cb-8d6e-4e0f-8df1-eddf4b48461a">
 
@@ -37,12 +40,32 @@ For example here we can see a specific mod's hourly activity in a specificed tim
 Here we can clearly see how this method semi solves the vanish issue, we can see small gaps in the staff activity, usually for 1-2 hours. We can assume the staff was in vanish at these times if we were to err on the side of caution.
 
 ### Selling chests automatically on survival
-Well now I have a good idea on the best time to run the bot with the smallest chance of detection. Time to write a bot that flys around my chests and auto sells them. This part is boring, but a couple things to highlight. My chest collections were in a 3 adjacent 64x64 walls. I had 10 farms, so that totals to 245,760 chests. If any OGs on survival remember me mass buying chests and hoppers for ridiculous prices, this is why. Of course, I didn't manually build these farms by hand, I had a bot that built farms as well. Anyways, I digress. The biggest issue was avoiding the same mistake that got me banned in the past. If I was ever force teleported, I wanted to be able to detect that and stop my bot. Luckily Mineflayer has a 'force-teleport' function that does just this, however TPS drops sometimes triggered this, so the majority of the time I ran the bots without this protection. Risky for sure, but again I knew staff was offline :D. Of course, this ran automatically, on a virtual server, everyday by itself.
+Well now I have a good idea on the best time to run the bot with the smallest chance of detection. Time to write a bot that flys around my chests and auto sells them. This part is boring, but a couple things to highlight. My chest collections were in a 3 adjacent 64x64 walls. I had 10 farms, so that totals to 245,760 chests. If any OGs on survival remember me mass buying chests and hoppers for ridiculous prices, this is why. Of course, I didn't manually build these farms by hand, I had a bot that built farms as well. Anyways, I digress. The biggest issue was avoiding the same mistake that got me banned in the past. If I was ever force teleported, I wanted to be able to detect that and stop my bot. Luckily Mineflayer has a 'force-teleport' function that does just this, however TPS drops sometimes triggered this, so the majority of the time I ran the bots without this protection. Risky for sure, but again I knew staff was offline :D. Of course, this ran automatically, on a virtual server, everyday at a scheduled time by itself.
 
 At my peak I netted around 6-7 billion igm a day without even opening my laptop. This is a problem. If I am constantly on /baltop, people will notice. To get around this, I had my bots automatically distrubute the money among many alts, so I would stay off /baltop, easy! I would then buy lemons to lower my balance.
 
-Below is a snippet of the main function that flys through my wall of chests, clicking on them with a sell wand to sell the contents
+Below are some snippets of the main functions that flys through my wall of chests, clicking on them with a sell wand to sell the contents. Remember this code probably doesn't work as I probably never actually botted on the server.
 ```js
+// Handles polarity when moving along different axes
+function mapper(ax,direction,flipflop,chestFacing){
+  
+  //0 : initial position offset
+  //1 : move direction
+  //2 : initial chest offset for for loop counting
+  output = []
+  if (ax == 'x'){
+    output.push(v(0,-1,-1*chestFacing*2))
+    output.push(v(flipflop*direction,0,0))
+    output.push(v(-1*direction,0,0))
+  }else{
+    output.push(v(-1*chestFacing*2,-1,0))
+    output.push(v(0,0,flipflop*direction))
+    output.push(v(0,0,-1*direction))
+  }
+  return output
+
+}
+// Handles selling a single 64x64 wall with inputs denoting the axis the wall lies on and direction of chests
 const sellChests = async (startingChestPOS,ax,direction,chestFacing,rows,cols) => {
   startedEvent = true
   currentChest = startingChestPOS
@@ -92,6 +115,56 @@ const sellChests = async (startingChestPOS,ax,direction,chestFacing,rows,cols) =
   }
   startedEvent = false
 }
+
+// Handles moving between each 64x64 wall of chests
+const getToNewLoc = async (oldChestWallAx,oldChestWallDirection,newFirstChestCoord,newChestFacing) => {
+  startedEvent = true
+  var currentPlayerLocation = bot.entity.position
+  var newChestStartingLoc = newFirstChestCoord
+  if (oldChestWallAx == 'x'){
+    mapped = mapper('y',0,0,newChestFacing)
+    newChestStartingLoc = newFirstChestCoord.offset(mapped[0].x,mapped[0].y,mapped[0].z)
+  }else{
+    mapped = mapper('x',0,0,newChestFacing)
+    newChestStartingLoc = newFirstChestCoord.offset(mapped[0].x,mapped[0].y,mapped[0].z)
+  }}
+
+// Driver for selling chests, combines the other functions to sell 3 walls of chests among 10 different farms
+const completeSell = async () => {
+  bot.chat('/fly on')
+  deposit = 'w'
+  bot.chat('/pv 5')
+  await bot.waitForTicks(40)
+  // await useSellMulti()
+  // await bot.waitForTicks(40)
+  // await useSellMulti()
+
+  await bot.waitForTicks(40)
+  await equipSellWand()
+  for (let i = 1; i < 11;i++){
+    if (!moved){
+      var currentHome = i
+      const datee = new Date()
+      console.log(datee.toString())
+      console.log('Now selling farm ' + currentHome.toString())
+      await bot.chat('/home farmsell' + currentHome.toString())
+      
+      await bot.waitForTicks(70)
+      await sellChests(localeFirstWallCoords[i],localeFirstWallAx[i],localeFirstWallDirection[i],localeFirstChestDirection[i],16,68)
+      isBigFlying = true
+      await getToNewLoc(localeFirstWallAx[i],localeFirstWallDirection[i],localeSecondWallCoords[i],reverser(localeFirstWallDirection[i]))
+      isBigFlying = false
+      // The second walls wall direction (sell direction) is the same as the first wall chest facing direction
+      await sellChests(localeSecondWallCoords[i],reverser(localeFirstWallAx[i]),localeFirstChestDirection[i],reverser(localeFirstWallDirection[i]),16,68)
+      isBigFlying = true
+      await getToNewLoc(reverser(localeFirstWallAx[i]),localeFirstChestDirection[i],localeThirdWallCoords[i],reverser(localeFirstChestDirection[i]))
+      isBigFlying = false
+      await sellChests(localeThirdWallCoords[i],localeFirstWallAx[i],reverser(localeFirstWallDirection[i]),reverser(localeFirstChestDirection[i]),16,68)
+      console.log('Done with farm ' + currentHome.toString())
+
+    }
+    
+  }}
 ```
 
 ### Converting money to lemons - discord bot
@@ -99,13 +172,13 @@ I didn't want to sit online all day monitering chat waiting for people to sell l
 
 ![CleanShot 2024-09-25 at 01 27 25@2x](https://github.com/user-attachments/assets/836a6314-a11e-40e5-8412-40de2fd57a1a)
 
-This discord bot was proudly made with [discordjs](https://discordjs.guide/#before-you-begin) and [Mineflayer](https://github.com/PrismarineJS/mineflayer). Pretty quickly I got to a total of around 1600 lemons before my days of doing nothing ran out. Anyways, I ended up selling those lemons for some real life money, the final goal of this project. Or did I? I guess we will never really know.
+This discord bot was proudly made with [discordjs](https://discordjs.guide/#before-you-begin) and [Mineflayer](https://github.com/PrismarineJS/mineflayer). Pretty quickly I got to a total of around 1600 lemons before my days of doing nothing ran out. Anyways, I ended up selling some of those lemons for some real life money, the final goal of this project. Or did I? I guess we will never really know.
 
 Again, all the above is probably fiction, who would spend so much time and effort getting fake currency?
 
-Until next time
+Until next time,
 <br>
-bless
+blessed
 
 
 
