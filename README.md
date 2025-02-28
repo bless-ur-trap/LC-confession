@@ -1,4 +1,4 @@
-# LemonCloud confessions
+# LemonCloud Survival confessions
 How I had fun on lemoncloud minecraft server late 2023 - early 2024 and made 1700 lemons in just a couple months
 
 In summary: I botted
